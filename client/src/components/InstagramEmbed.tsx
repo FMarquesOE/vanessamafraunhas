@@ -11,6 +11,17 @@ import { useEffect } from "react";
  * é reacionado manualmente via window.instgrm.Embeds.process(), já que
  * numa SPA o script pode já estar em cache de uma navegação anterior e
  * não reprocessaria o blockquote sozinho.
+ *
+ * Responsividade: o próprio blockquote oficial do Instagram exige
+ * min-width:326px (inline, imposto pela Meta — não dá pra remover sem
+ * quebrar o processamento do embed.js). Em telas muito estreitas (celulares
+ * de ~360px de largura, comuns no Brasil) 326px pode passar da largura útil
+ * do container, o que empurraria a página inteira para o lado. Por isso o
+ * wrapper abaixo isola esse risco: vira um scroll horizontal contido só na
+ * caixinha do embed (largura máxima 540px, como a Meta recomenda) em vez de
+ * vazar layout pro resto do site. Em qualquer tela a partir de ~360px de
+ * largura útil (a grande maioria dos aparelhos) o embed cabe inteiro,
+ * centralizado, sem nenhum scroll aparecer.
  */
 declare global {
   interface Window {
@@ -109,8 +120,20 @@ export default function InstagramEmbed({
 
   return (
     <div
-      style={{ display: "flex", justifyContent: "center" }}
-      dangerouslySetInnerHTML={{ __html: buildEmbedHtml({ permalink, captionHtml }) }}
-    />
+      style={{
+        width: "100%",
+        maxWidth: 540,
+        margin: "0 auto",
+        overflowX: "auto",
+        WebkitOverflowScrolling: "touch",
+      }}
+    >
+      <div
+        style={{ display: "flex", justifyContent: "center", minWidth: 326 }}
+        dangerouslySetInnerHTML={{
+          __html: buildEmbedHtml({ permalink, captionHtml }),
+        }}
+      />
+    </div>
   );
 }

@@ -789,7 +789,7 @@ function ContatoSection() {
             alignItems: "center",
           }}
         >
-          <div>
+          <div style={{ minWidth: 0 }}>
             <ScrollReveal>
               <SectionLabel
                 numero="V"
@@ -829,7 +829,7 @@ function ContatoSection() {
                   { label: "Horário", valor: CONFIG.horario },
                   { label: "Instagram", valor: CONFIG.instagram },
                 ].map(({ label, valor }) => (
-                  <div key={label}>
+                  <div key={label} style={{ minWidth: 0 }}>
                     <span
                       style={{
                         fontFamily: "Inter, sans-serif",
@@ -888,10 +888,10 @@ function ContatoSection() {
                         >
                           {valor}
                         </a>
-                        <div style={{ marginTop: 16, maxWidth: 540 }}>
+                        <div style={{ marginTop: 16, width: "100%" }}>
                           <InstagramEmbed
-                            permalink="https://www.instagram.com/reel/Da-ejdsI5S-/"
-                            captionHtml="Um post compartilhado por Nosso Espaço D. Caxias (@nossoespacoduquedecaxias)"
+                            permalink="https://www.instagram.com/reel/DXrhznpkXUN/"
+                            captionHtml="Um post compartilhado por Vanessa Mafra | Manicure | Nail Designer | Duque de Caxias 📍 (@vanessamafra_especialistanails)"
                           />
                         </div>
                       </>
