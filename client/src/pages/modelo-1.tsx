@@ -902,7 +902,7 @@ function ContatoSection() {
                         </a>
                         <div style={{ marginTop: 16, width: "100%" }}>
                           <InstagramEmbed
-                            permalink="https://www.instagram.com/reel/DXrhznpkXUN/"
+                            permalink="https://www.instagram.com/p/DQci7VkEXzA/"
                             captionHtml="Um post compartilhado por Vanessa Mafra | Manicure | Nail Designer | Duque de Caxias 📍 (@vanessamafra_especialistanails)"
                           />
                         </div>
