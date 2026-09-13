@@ -87,6 +87,7 @@ function SectionLabel({
   numeroColor,
   labelColor,
   as = "span",
+  center = false,
 }: {
   numero: string;
   label: string;
@@ -94,6 +95,7 @@ function SectionLabel({
   numeroColor?: string;
   labelColor?: string;
   as?: "span" | "h2";
+  center?: boolean;
 }) {
   const numberColor = numeroColor ?? color;
   const titleColor = labelColor ?? color;
@@ -104,6 +106,7 @@ function SectionLabel({
       style={{
         display: "flex",
         alignItems: "center",
+        justifyContent: center ? "center" : "flex-start",
         gap: 12,
         marginBottom: 28,
       }}
@@ -784,17 +787,26 @@ function ContatoSection() {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
-            gap: isMobile ? 48 : 80,
+            gridTemplateColumns: "1fr",
+            justifyItems: "center",
+            gap: isMobile ? 48 : 40,
             alignItems: "center",
           }}
         >
-          <div style={{ minWidth: 0 }}>
+          <div
+            style={{
+              minWidth: 0,
+              maxWidth: 640,
+              width: "100%",
+              textAlign: "center",
+            }}
+          >
             <ScrollReveal>
               <SectionLabel
                 numero="V"
                 label="Localização & Contato"
                 color={c.fundo}
+                center
               />
             </ScrollReveal>
 
@@ -863,7 +875,7 @@ function ContatoSection() {
                         >
                           {valor}
                         </a>
-                        <div style={{ marginTop: 12, maxWidth: 420 }}>
+                        <div style={{ margin: "12px auto 0", maxWidth: 420 }}>
                           <MapaLocalizacao
                             embedUrl={CONFIG.enderecoMapsEmbed}
                           />
@@ -946,18 +958,20 @@ function ContatoSection() {
             </ScrollReveal>
           </div>
 
-          {/* Selo — centralizado no mobile */}
-          <ScrollReveal>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <RotatingSeal size={isMobile ? 160 : 220} color={c.acentoClaro} />
-            </div>
-          </ScrollReveal>
+          {/* Selo giratório — visível apenas no mobile */}
+          {isMobile && (
+            <ScrollReveal>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <RotatingSeal size={160} color={c.acentoClaro} />
+              </div>
+            </ScrollReveal>
+          )}
         </div>
       </div>
     </section>
