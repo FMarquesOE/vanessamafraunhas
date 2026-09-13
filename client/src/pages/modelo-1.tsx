@@ -16,6 +16,7 @@ import Nav from "@/components/Nav";
 import PhotoFrame from "@/components/PhotoFrame";
 import Hero, { RotatingSeal } from "@/components/Hero";
 import MapaLocalizacao from "@/components/MapaLocalizacao";
+import InstagramEmbed from "@/components/InstagramEmbed";
 import { CONFIG } from "@/lib/siteConfig";
 
 // =============================================================================
@@ -869,23 +870,31 @@ function ContatoSection() {
                         </div>
                       </>
                     ) : label === "Instagram" ? (
-                      <a
-                        href={`https://instagram.com/${CONFIG.instagram.replace("@", "")}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{
-                          fontFamily: "DM Sans, Inter, sans-serif",
-                          fontSize: isMobile ? 15 : 16,
-                          color: c.fundo,
-                          opacity: 0.7,
-                          lineHeight: 1.5,
-                          display: "inline-block",
-                          textDecoration: "none",
-                          whiteSpace: "pre-line",
-                        }}
-                      >
-                        {valor}
-                      </a>
+                      <>
+                        <a
+                          href={`https://instagram.com/${CONFIG.instagram.replace("@", "")}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{
+                            fontFamily: "DM Sans, Inter, sans-serif",
+                            fontSize: isMobile ? 15 : 16,
+                            color: c.fundo,
+                            opacity: 0.7,
+                            lineHeight: 1.5,
+                            display: "inline-block",
+                            textDecoration: "none",
+                            whiteSpace: "pre-line",
+                          }}
+                        >
+                          {valor}
+                        </a>
+                        <div style={{ marginTop: 16, maxWidth: 540 }}>
+                          <InstagramEmbed
+                            permalink="https://www.instagram.com/reel/Da-ejdsI5S-/"
+                            captionHtml="Um post compartilhado por Nosso Espaço D. Caxias (@nossoespacoduquedecaxias)"
+                          />
+                        </div>
+                      </>
                     ) : (
                       <span
                         style={{
