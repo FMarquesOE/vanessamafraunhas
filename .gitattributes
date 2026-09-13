@@ -1,1 +1,16 @@
+# Normaliza line endings: LF no repositório, conversão automática no checkout.
+* text=auto eol=lf
+
+# Patches precisam manter os bytes exatos, senão git apply falha.
 *.patch -text
+*.diff -text
+
+# Binários: nunca converter.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.ico binary
+*.svg text eol=lf
+*.woff binary
+*.woff2 binary

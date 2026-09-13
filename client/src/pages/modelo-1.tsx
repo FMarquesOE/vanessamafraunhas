@@ -8,11 +8,9 @@
 import {
   motion,
   useInView,
-  useScroll,
-  useTransform,
   Variants,
 } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useIsMobile } from "@/hooks/useMobile";
 import Nav from "@/components/Nav";
 import PhotoFrame from "@/components/PhotoFrame";
@@ -286,14 +284,6 @@ function ServicosSection() {
   const c = CONFIG.cores;
   const isMobile = useIsMobile();
 
-  const gradients = [
-    `linear-gradient(145deg, ${c.fundoSecundario}, ${c.acentoClaro}65)`,
-    `linear-gradient(145deg, ${c.salvia}55, ${c.fundoSecundario})`,
-    `linear-gradient(145deg, ${c.acentoClaro}45, ${c.salvia}35)`,
-    `linear-gradient(145deg, ${c.fundoSecundario}, ${c.salvia}65)`,
-    `linear-gradient(145deg, ${c.acentoClaro}55, ${c.fundoSecundario})`,
-    `linear-gradient(145deg, ${c.salvia}35, ${c.acentoClaro}55)`,
-  ];
 
   return (
     <section
@@ -326,7 +316,7 @@ function ServicosSection() {
             marginTop: isMobile ? 40 : 64,
           }}
         >
-          {CONFIG.servicos.map((s, index) => (
+          {CONFIG.servicos.map((s) => (
             <motion.div
               key={s.numero}
               variants={vFadeUp}

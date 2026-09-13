@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verificar:
+    name: Typecheck, lint e build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Habilitar corepack (pnpm do packageManager)
+        run: corepack enable
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Instalar dependencias
+        run: pnpm install --frozen-lockfile
+
+      - name: Typecheck
+        run: pnpm check
+
+      - name: Lint
+        run: pnpm lint
+
+      # O build roda o postbuild: prerender (Playwright) + sitemap.
+      # O prerender falha de proposito se o HTML sair vazio ou sem o JSON-LD.
+      - name: Instalar Chromium do Playwright
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Build (inclui prerender)
+        run: pnpm build
+
+      - name: Conferir que o prerender produziu conteudo
+        run: |
+          test -f dist/public/index.html
+          grep -q "aggregateRating" dist/public/index.html
+          grep -q "FAQPage" dist/public/index.html
+          ! grep -q '<div id="root"></div>' dist/public/index.html
+          ! grep -q "data-loc=" dist/public/index.html
+          echo "OK: HTML pre-renderizado, com JSON-LD e sem data-loc"
