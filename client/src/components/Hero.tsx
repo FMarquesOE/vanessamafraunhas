@@ -243,7 +243,7 @@ export default function Hero() {
                 textTransform: "uppercase",
                 color: c.texto,
                 textDecoration: "none",
-                opacity: 0.45,
+                opacity: 0.8,
                 textAlign: "center",
                 paddingBottom: 2,
               }}
@@ -417,13 +417,13 @@ export default function Hero() {
               textTransform: "uppercase",
               color: c.texto,
               textDecoration: "none",
-              opacity: 0.45,
+              opacity: 0.8,
               borderBottom: `1px solid ${c.texto}80`,
               paddingBottom: 2,
               transition: "opacity 300ms",
             }}
-            onMouseEnter={e => (e.currentTarget.style.opacity = "0.85")}
-            onMouseLeave={e => (e.currentTarget.style.opacity = "0.45")}
+            onMouseEnter={e => (e.currentTarget.style.opacity = "1")}
+            onMouseLeave={e => (e.currentTarget.style.opacity = "0.8")}
           >
             Ver Serviços →
           </a>

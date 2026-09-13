@@ -194,7 +194,7 @@
   overflow: hidden;
 }
 
-/* Serviços: background-image card */
+/* Serviços: foto do card (agora um <img> real, antes era background-image) */
 .servico-bg {
   border-radius: 6px;
   overflow: hidden;
@@ -202,9 +202,6 @@
   transition:
     transform 250ms ease,
     box-shadow 250ms ease;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
 }
 @media (hover: hover) {
   .servico-bg:hover {

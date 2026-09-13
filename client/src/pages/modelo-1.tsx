@@ -401,13 +401,19 @@ function ServicosSection() {
                     overflow: "hidden",
                   }}
                 >
-                  <div
+                  <img
+                    src={s.src}
+                    alt={`${s.nome} — ${s.descricao}`}
+                    loading="lazy"
+                    decoding="async"
+                    width={800}
+                    height={800}
                     className="servico-bg"
-                    role="img"
-                    aria-label={s.nome}
                     style={{
+                      width: "100%",
                       aspectRatio: isMobile ? "1/1" : (s.aspectRatio ?? "4/3"),
-                      backgroundImage: `url(${s.src})`,
+                      objectFit: "cover",
+                      objectPosition: "center",
                     }}
                   />
                 </div>
@@ -974,7 +980,7 @@ function Footer() {
           display: "flex",
           alignItems: "center",
           gap: 3,
-          backgroundColor: "rgba(255, 255, 255, 0.5)", // ← máscara branca
+          backgroundColor: "rgba(255, 255, 255, 0.82)", // ← máscara branca (opacidade elevada de 0.5 para 0.82: contraste do texto sobre o fundo preto não atingia 4.5:1)
           borderRadius: 45, // ← bordas arredondadas
           padding: isMobile ? "6px 12px" : "8px 16px", // ← espaço interno
         }}
@@ -1035,12 +1041,14 @@ export default function Modelo1() {
   return (
     <div style={{ backgroundColor: c.fundo, minHeight: "100vh" }}>
       <Nav />
-      <Hero />
-      <SobreSection />
-      <ServicosSection />
-      <DepoimentosSection />
-      <DuvidasSection />
-      <ContatoSection />
+      <main>
+        <Hero />
+        <SobreSection />
+        <ServicosSection />
+        <DepoimentosSection />
+        <DuvidasSection />
+        <ContatoSection />
+      </main>
       <Footer />
     </div>
   );

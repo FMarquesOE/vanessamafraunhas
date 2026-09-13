@@ -92,11 +92,11 @@ export default function Nav() {
                   textTransform: "uppercase",
                   color: c.texto,
                   textDecoration: "none",
-                  opacity: 0.55,
+                  opacity: 0.8,
                   transition: "opacity 300ms",
                 }}
                 onMouseEnter={e => (e.currentTarget.style.opacity = "1")}
-                onMouseLeave={e => (e.currentTarget.style.opacity = "0.75")}
+                onMouseLeave={e => (e.currentTarget.style.opacity = "0.8")}
               >
                 {label}
               </a>
@@ -220,7 +220,7 @@ export default function Nav() {
                   textTransform: "uppercase",
                   color: c.texto,
                   textDecoration: "none",
-                  opacity: 0.6,
+                  opacity: 0.8,
                   padding: "12px 0",
                   borderBottom: `1px solid ${c.acento}15`,
                 }}

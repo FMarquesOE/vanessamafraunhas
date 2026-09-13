@@ -31,7 +31,7 @@ export const CONFIG = {
       descricao:
         "Alongamento e sobreposta em gel com acabamento naturalista — Força e elegância que duram semanas. Perfeitas, do primeiro ao último dia.",
       duracao: "1h45",
-      src: "/fotos/UnhasGel.jpeg",
+      src: "/fotos/UnhasGel.webp",
       aspectRatio: "4/3",
     },
     {
@@ -40,7 +40,7 @@ export const CONFIG = {
       descricao:
         "O brilho que transforma qualquer esmalte. Cor intensa, acabamento impecável, durabilidade real",
       duracao: "1h30",
-      src: "/fotos/BanhoGel.jpeg",
+      src: "/fotos/BanhoGel.webp",
       aspectRatio: "4/3",
     },
     {
@@ -49,7 +49,7 @@ export const CONFIG = {
       descricao:
         "Proteção invisível, unhas inabaláveis. Para quem não abre mão de unhas perfeitas — nem no dia a dia mais intenso.",
       duracao: "1h00",
-      src: "/fotos/Blindagem.jpeg",
+      src: "/fotos/Blindagem.webp",
       aspectRatio: "4/3",
     },
     {
@@ -58,7 +58,7 @@ export const CONFIG = {
       descricao:
         "O clássico que nunca sai de moda. Cuidado completo, acabamento bonito e aquela sensação gostosa de mãos e pés em dia.",
       duracao: "01h30",
-      src: "/fotos/MPTradicional.jpeg",
+      src: "/fotos/MPTradicional.webp",
       aspectRatio: "4/3",
     },
     {
@@ -67,7 +67,7 @@ export const CONFIG = {
       descricao:
         "Uma pausa de luxo para os seus pés. Esfoliação, hidratação profunda e muito relaxamento — porque seus pés merecem esse mimo.",
       duracao: "1h30",
-      src: "/fotos/SPA.jpeg",
+      src: "/fotos/SPA.webp",
       aspectRatio: "4/3",
     },
     {
@@ -76,7 +76,7 @@ export const CONFIG = {
       descricao:
         "Tratamento estético avançado que transforma a aparência dos pés. Combate calosidades, rachaduras e promove uma renovação completa — para pés que parecem renascidos.",
       duracao: "1h30",
-      src: "/fotos/Plastica.jpeg",
+      src: "/fotos/Plastica.webp",
       aspectRatio: "4/3",
     },
   ],
