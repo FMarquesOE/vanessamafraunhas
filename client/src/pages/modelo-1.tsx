@@ -1043,12 +1043,12 @@ function Footer() {
         <div>
           Administrado por{" "}
           <a
-            href="https://wa.me/5521976822900?text=Ol%C3%A1%20FMarques%20TechSolu%C3%A7%C3%B5es!%20Quero%20saber%20mais%20sobre%20os%20servi%C3%A7os%20da%20empresa."
+            href="https://wa.me/5521976822900?text=Ol%C3%A1...%20Quero%20saber%20mais%20sobre%20seus%20servi%C3%A7os!%20%F0%9F%9A%80."
             target="_blank"
             rel="noopener noreferrer"
             style={{ color: "white", fontWeight: "bold" }}
           >
-            FMarques TechSoluções
+            Marques Tech
           </a>
           .
         </div>
