@@ -19,6 +19,7 @@ export default function Nav() {
   const navLinks = [
     { label: "Serviços", href: "#servicos" },
     { label: "Sobre", href: "#sobre" },
+    { label: "Curso", href: "#curso" },
     { label: "Dúvidas", href: "#duvidas" },
     { label: "Contato", href: "#contato" },
   ];

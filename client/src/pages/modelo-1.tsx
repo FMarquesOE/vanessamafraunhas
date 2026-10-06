@@ -10,7 +10,7 @@ import {
   useInView,
   Variants,
 } from "framer-motion";
-import { useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { useIsMobile } from "@/hooks/useMobile";
 import Nav from "@/components/Nav";
 import PhotoFrame from "@/components/PhotoFrame";
@@ -559,6 +559,584 @@ function DepoimentosSection() {
 }
 
 // =============================================================================
+// CURSO — Spa e Plástica dos Pés (divulgação, baseada no cartaz oficial)
+// =============================================================================
+// Paleta do site (CONFIG.cores) — mesma combinação usada em "Localização & Contato":
+// fundo café (texto), destaques em areia (acentoClaro) e texto creme (fundo).
+const CURSO_CORES = {
+  fundo: CONFIG.cores.texto,
+  fundo2: CONFIG.cores.fundoSecundario,
+  destaque: CONFIG.cores.acentoClaro,
+  claro: CONFIG.cores.fundo,
+  apoio: CONFIG.cores.salvia,
+};
+
+function useIsNarrow(maxWidth = 1023) {
+  const [narrow, setNarrow] = useState(false);
+  useEffect(() => {
+    const mql = window.matchMedia(`(max-width: ${maxWidth}px)`);
+    const onChange = () => setNarrow(mql.matches);
+    onChange();
+    mql.addEventListener("change", onChange);
+    return () => mql.removeEventListener("change", onChange);
+  }, [maxWidth]);
+  return narrow;
+}
+
+function CursoIcone({ tipo }: { tipo: string }) {
+  const p = {
+    fill: "none",
+    stroke: CURSO_CORES.destaque,
+    strokeWidth: 1.4,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+  };
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+      {tipo === "pratica" && (
+        <>
+          <circle cx="12" cy="12" r="8.5" {...p} />
+          <path d="M12 7.5V12l3 2" {...p} />
+        </>
+      )}
+      {tipo === "apostila" && (
+        <>
+          <path
+            d="M3.5 6.5c2.8-1 5.6-1 8.5.8v11c-2.9-1.8-5.7-1.8-8.5-.8z"
+            {...p}
+          />
+          <path
+            d="M20.5 6.5c-2.8-1-5.6-1-8.5.8v11c2.9-1.8 5.7-1.8 8.5-.8z"
+            {...p}
+          />
+          <path d="M6 10h3.5M6 13h3.5M14.5 10H18M14.5 13H18" {...p} />
+        </>
+      )}
+      {tipo === "precificacao" && (
+        <>
+          <path d="M5 19v-4M10 19v-7M15 19v-5M20 19V9" {...p} />
+          <path d="M4 11l5-4 4 3 6-6M15.5 4H19v3.5" {...p} />
+        </>
+      )}
+    </svg>
+  );
+}
+
+function CursoSection() {
+  const g = CURSO_CORES;
+  const curso = CONFIG.curso;
+  const isMobile = useIsMobile();
+  const narrow = useIsNarrow();
+
+  const destaqueTexto: React.CSSProperties = { color: g.destaque };
+  const seloTam = isMobile ? 104 : 132;
+
+  const blocoTitulo = (
+    <>
+      <ScrollReveal>
+        <h3
+          style={{
+            margin: 0,
+            fontFamily: "Cormorant Garamond, serif",
+            fontWeight: 500,
+            lineHeight: 0.95,
+            letterSpacing: "0.01em",
+          }}
+        >
+          <span
+            style={{
+              display: "block",
+              fontSize: isMobile ? 44 : 68,
+              textTransform: "uppercase",
+              color: g.claro,
+            }}
+          >
+            {curso.titulo}
+          </span>
+          <span
+            style={{
+              display: "block",
+              fontSize: isMobile ? 58 : 92,
+              fontStyle: "italic",
+              fontWeight: 400,
+              marginTop: isMobile ? 2 : 4,
+              paddingBottom: 6,
+              ...destaqueTexto,
+            }}
+          >
+            {curso.tituloDestaque}
+          </span>
+        </h3>
+        <p
+          style={{
+            fontFamily: "DM Sans, Inter, sans-serif",
+            fontSize: isMobile ? 15.5 : 17,
+            lineHeight: 1.7,
+            color: g.claro,
+            opacity: 0.78,
+            margin: isMobile ? "20px 0 0" : "28px 0 0",
+            maxWidth: 520,
+          }}
+        >
+          {curso.subtitulo}
+        </p>
+      </ScrollReveal>
+    </>
+  );
+
+  const blocoModulos = (
+    <>
+      <motion.ul
+        variants={vStagger}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-60px" }}
+        style={{
+          listStyle: "none",
+          padding: 0,
+          margin: isMobile ? "36px 0 0" : "44px 0 0",
+          display: "flex",
+          flexDirection: "column",
+          gap: 2,
+        }}
+      >
+        {curso.modulos.map(m => (
+          <motion.li
+            key={m.titulo}
+            variants={vFadeUp}
+            style={{
+              display: "flex",
+              alignItems: "flex-start",
+              gap: isMobile ? 16 : 22,
+              padding: isMobile ? "18px 0" : "22px 0",
+              borderTop: `1px solid ${g.destaque}26`,
+            }}
+          >
+            <span
+              style={{
+                flexShrink: 0,
+                width: isMobile ? 46 : 52,
+                height: isMobile ? 46 : 52,
+                borderRadius: "50%",
+                border: `1px solid ${g.destaque}`,
+                boxShadow: `inset 0 0 0 3px ${g.fundo}, inset 0 0 0 4px ${g.destaque}55`,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <CursoIcone tipo={m.icone} />
+            </span>
+            <div>
+              <h4
+                style={{
+                  margin: 0,
+                  fontFamily: "Inter, sans-serif",
+                  fontSize: isMobile ? 12 : 13,
+                  fontWeight: 600,
+                  letterSpacing: "0.2em",
+                  textTransform: "uppercase",
+                  color: g.destaque,
+                }}
+              >
+                {m.titulo}
+              </h4>
+              <p
+                style={{
+                  margin: "6px 0 0",
+                  fontFamily: "DM Sans, Inter, sans-serif",
+                  fontSize: isMobile ? 14.5 : 15.5,
+                  lineHeight: 1.6,
+                  color: g.claro,
+                  opacity: 0.7,
+                }}
+              >
+                {m.texto}
+              </p>
+            </div>
+          </motion.li>
+        ))}
+      </motion.ul>
+    </>
+  );
+
+  const blocoVisual = (
+    <>
+      <ScrollReveal
+        style={{ width: "100%", display: "flex", justifyContent: "center" }}
+      >
+        <figure
+          style={{
+            position: "relative",
+            margin: 0,
+            width: "100%",
+            maxWidth: isMobile ? 360 : 460,
+          }}
+        >
+          <div
+            style={{
+              padding: isMobile ? 8 : 10,
+              backgroundColor: g.claro,
+              transform: "rotate(-2.5deg)",
+              boxShadow: `0 30px 60px -20px rgba(0,0,0,.55), 0 0 0 1px ${g.destaque}60`,
+            }}
+          >
+            <img
+              src={curso.imagemAntesDepois}
+              alt="Antes e depois de calcanhar com rachaduras tratado com a técnica de Plástica dos Pés"
+              width={796}
+              height={688}
+              loading="lazy"
+              decoding="async"
+              style={{ display: "block", width: "100%", height: "auto" }}
+            />
+          </div>
+          {/* Selo da marca: o mesmo selo giratório do site, com o monograma VM */}
+          <div
+            aria-hidden="true"
+            style={{
+              position: "absolute",
+              width: seloTam,
+              height: seloTam,
+              right: isMobile ? -14 : -44,
+              top: isMobile ? -40 : -58,
+              borderRadius: "50%",
+              backgroundColor: g.claro,
+              border: `1px solid ${g.destaque}`,
+              boxShadow: "0 14px 30px -12px rgba(0,0,0,.45)",
+            }}
+          >
+            <div
+              style={{
+                width: 160,
+                height: 160,
+                transform: `scale(${seloTam / 160})`,
+                transformOrigin: "top left",
+              }}
+            >
+              <RotatingSeal size={160} color={g.fundo} />
+            </div>
+            <img
+              src="/fotos/Logo.webp"
+              alt=""
+              width={260}
+              height={260}
+              loading="lazy"
+              decoding="async"
+              style={{
+                position: "absolute",
+                width: seloTam * 0.42,
+                height: seloTam * 0.42,
+                left: "50%",
+                top: "50%",
+                transform: "translate(-50%, -50%)",
+              }}
+            />
+          </div>
+          <figcaption
+            style={{
+              marginTop: isMobile ? 26 : 32,
+              textAlign: "center",
+              fontFamily: "Cormorant Garamond, serif",
+              fontStyle: "italic",
+              fontSize: isMobile ? 19 : 22,
+              lineHeight: 1.35,
+              color: g.destaque,
+              padding: isMobile ? "0 36px" : "0 40px",
+            }}
+          >
+            {curso.chamada}
+          </figcaption>
+        </figure>
+      </ScrollReveal>
+    </>
+  );
+
+  const blocoInvestimento = (
+    <>
+      <ScrollReveal style={{ width: "100%", maxWidth: 520, margin: "0 auto" }}>
+        <div
+          style={{
+            border: `1px solid ${g.destaque}`,
+            borderRadius: 6,
+            padding: isMobile ? "24px 18px 26px" : "30px 36px 32px",
+            background: `linear-gradient(180deg, ${g.fundo2}cc 0%, ${g.fundo}f2 100%)`,
+            boxShadow: `0 0 0 4px ${g.fundo}, 0 0 0 5px ${g.destaque}40`,
+          }}
+        >
+          <div
+            style={{
+              textAlign: "center",
+              fontFamily: "Inter, sans-serif",
+              fontSize: 11,
+              fontWeight: 600,
+              letterSpacing: "0.28em",
+              textTransform: "uppercase",
+              color: g.destaque,
+              opacity: 0.9,
+            }}
+          >
+            Valor de investimento
+          </div>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr auto 1fr",
+              alignItems: "center",
+              marginTop: 18,
+            }}
+          >
+            {curso.precos.map((p, i) => (
+              <Fragment key={p.forma}>
+                {i === 1 && (
+                  <div
+                    aria-hidden="true"
+                    style={{
+                      width: 1,
+                      alignSelf: "stretch",
+                      background: `linear-gradient(180deg, transparent, ${g.destaque}99, transparent)`,
+                      margin: isMobile ? "0 12px" : "0 24px",
+                    }}
+                  />
+                )}
+                <div style={{ textAlign: "center" }}>
+                  <div
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "flex-start",
+                      fontFamily: "Cormorant Garamond, serif",
+                      fontWeight: 600,
+                      lineHeight: 1,
+                      ...destaqueTexto,
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontSize: isMobile ? 16 : 20,
+                        marginTop: isMobile ? 8 : 12,
+                        marginRight: 4,
+                      }}
+                    >
+                      R$
+                    </span>
+                    <span style={{ fontSize: isMobile ? 48 : 64 }}>
+                      {p.valor}
+                    </span>
+                    <span
+                      style={{
+                        fontSize: isMobile ? 18 : 24,
+                        marginTop: isMobile ? 6 : 8,
+                      }}
+                    >
+                      ,{p.centavos}
+                    </span>
+                  </div>
+                  <div
+                    style={{
+                      marginTop: 8,
+                      fontFamily: "Inter, sans-serif",
+                      fontSize: isMobile ? 10 : 11,
+                      fontWeight: 600,
+                      letterSpacing: "0.18em",
+                      textTransform: "uppercase",
+                      color: g.claro,
+                      opacity: 0.75,
+                    }}
+                  >
+                    {p.forma}
+                  </div>
+                </div>
+              </Fragment>
+            ))}
+          </div>
+        </div>
+
+        <ul
+          style={{
+            listStyle: "none",
+            padding: 0,
+            margin: "22px 0 0",
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "center",
+            gap: isMobile ? "8px 14px" : "8px 22px",
+          }}
+        >
+          {curso.beneficios.map(b => (
+            <li
+              key={b}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+                fontFamily: "Inter, sans-serif",
+                fontSize: isMobile ? 10 : 10.5,
+                fontWeight: 500,
+                letterSpacing: "0.16em",
+                textTransform: "uppercase",
+                color: g.claro,
+                opacity: 0.8,
+              }}
+            >
+              <span
+                aria-hidden="true"
+                style={{
+                  width: 5,
+                  height: 5,
+                  transform: "rotate(45deg)",
+                  backgroundColor: g.destaque,
+                }}
+              />
+              {b}
+            </li>
+          ))}
+        </ul>
+
+        <div
+          style={{
+            display: "flex",
+            flexDirection: isMobile ? "column" : "row",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: isMobile ? 18 : 28,
+            marginTop: isMobile ? 30 : 34,
+          }}
+        >
+          <a
+            href={`https://wa.me/${curso.whatsapp}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: "inline-block",
+              width: isMobile ? "100%" : "auto",
+              textAlign: "center",
+              fontFamily: "Inter, sans-serif",
+              fontSize: 12,
+              fontWeight: 600,
+              letterSpacing: "0.2em",
+              textTransform: "uppercase",
+              whiteSpace: "nowrap",
+              color: g.fundo,
+              backgroundColor: g.destaque,
+              padding: "16px 30px",
+              borderRadius: 2,
+              textDecoration: "none",
+              transition: "background-color 350ms",
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.backgroundColor = g.claro;
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.backgroundColor = g.destaque;
+            }}
+          >
+            Quero garantir minha vaga
+          </a>
+          <a
+            href={curso.cartaz}
+            target="_blank"
+            rel="noopener"
+            style={{
+              fontFamily: "Inter, sans-serif",
+              fontSize: 11,
+              letterSpacing: "0.2em",
+              textTransform: "uppercase",
+              whiteSpace: "nowrap",
+              color: g.destaque,
+              textDecoration: "none",
+              borderBottom: `1px solid ${g.destaque}80`,
+              paddingBottom: 3,
+              opacity: 0.85,
+            }}
+          >
+            Ver cartaz do curso →
+          </a>
+        </div>
+      </ScrollReveal>
+    </>
+  );
+
+  return (
+    <section
+      id="curso"
+      aria-label="Curso presencial de Spa e Plástica dos Pés"
+      style={{
+        position: "relative",
+        overflow: "hidden",
+        background: `radial-gradient(120% 80% at 85% 10%, ${g.fundo2} 0%, ${g.fundo} 55%), ${g.fundo}`,
+        color: g.claro,
+        padding: isMobile ? "72px 24px 80px" : "120px 80px",
+      }}
+    >
+      {/* brilho dourado difuso, eco do cartaz */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          width: isMobile ? 360 : 640,
+          height: isMobile ? 360 : 640,
+          right: isMobile ? -160 : -120,
+          bottom: isMobile ? -140 : -220,
+          borderRadius: "50%",
+          background: `radial-gradient(circle, ${g.fundo2}55 0%, transparent 65%)`,
+          pointerEvents: "none",
+        }}
+      />
+
+      <div style={{ maxWidth: 1200, margin: "0 auto", position: "relative" }}>
+        <ScrollReveal>
+          <SectionLabel
+            numero="IV"
+            label={curso.modalidade}
+            color={g.destaque}
+            labelColor={g.destaque}
+            as="h2"
+          />
+          <Filete color={g.destaque} />
+        </ScrollReveal>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: narrow ? "1fr" : "1.05fr 0.95fr",
+            gap: narrow ? 48 : 80,
+            alignItems: "center",
+            marginTop: isMobile ? 40 : 64,
+          }}
+        >
+          {narrow ? (
+            <>
+              {blocoTitulo}
+              {blocoVisual}
+              {blocoModulos}
+              {blocoInvestimento}
+            </>
+          ) : (
+            <>
+              <div>
+                {blocoTitulo}
+                {blocoModulos}
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  gap: 48,
+                }}
+              >
+                {blocoVisual}
+                {blocoInvestimento}
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// =============================================================================
 // DÚVIDAS FREQUENTES
 // =============================================================================
 function FaqItem({
@@ -691,7 +1269,7 @@ function DuvidasSection() {
       <div style={{ maxWidth: 900, margin: "0 auto" }}>
         <ScrollReveal>
           <SectionLabel
-            numero="IV"
+            numero="V"
             label={"Dúvidas Frequentes"}
             color={c.fundo}
             as="h2"
@@ -803,7 +1381,7 @@ function ContatoSection() {
           >
             <ScrollReveal>
               <SectionLabel
-                numero="V"
+                numero="VI"
                 label="Localização & Contato"
                 color={c.fundo}
                 center
@@ -1069,6 +1647,7 @@ export default function Modelo1() {
         <SobreSection />
         <ServicosSection />
         <DepoimentosSection />
+        <CursoSection />
         <DuvidasSection />
         <ContatoSection />
       </main>

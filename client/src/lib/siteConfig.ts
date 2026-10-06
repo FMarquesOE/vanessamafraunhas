@@ -97,6 +97,42 @@ export const CONFIG = {
         "Vanessa como sempre muito agradável de uma simpatia ímpar, ótimo atendimento e um serviço de excelência.",
     },
   ],
+  curso: {
+    modalidade: "Curso Presencial",
+    titulo: "Spa e Plástica",
+    tituloDestaque: "dos Pés",
+    subtitulo:
+      "Técnica, cuidado e resultados reais para transformar pés — e iniciar seus atendimentos com segurança.",
+    chamada: "Tudo o que você precisa para iniciar seus atendimentos!",
+    modulos: [
+      {
+        icone: "pratica",
+        titulo: "4h de prática e conteúdo",
+        texto: "Aprenda na prática, com técnicas seguras e eficazes.",
+      },
+      {
+        icone: "apostila",
+        titulo: "Apostila de apoio",
+        texto:
+          "E lista de material completa para iniciar os atendimentos.",
+      },
+      {
+        icone: "precificacao",
+        titulo: "Precificação e posicionamento",
+        texto:
+          "Saiba como cobrar, atrair clientes e se destacar no mercado.",
+      },
+    ],
+    beneficios: ["Certificado de conclusão", "Suporte pós-curso", "Vagas limitadas"],
+    precos: [
+      { valor: "497", centavos: "00", forma: "PIX ou dinheiro" },
+      { valor: "597", centavos: "00", forma: "Cartão" },
+    ],
+    whatsapp:
+      "5521999277505?text=Ol%C3%A1%20Vanessa!%20Tenho%20interesse%20no%20Curso%20Presencial%20de%20Spa%20e%20Pl%C3%A1stica%20dos%20P%C3%A9s.%20Pode%20me%20passar%20as%20pr%C3%B3ximas%20datas%3F",
+    imagemAntesDepois: "/fotos/curso/antes-depois.webp",
+    cartaz: "/fotos/curso/cartaz-curso-spa-plastica-pes.webp",
+  },
   duvidas: [
     {
       pergunta: "Dói fazer o alongamento?",
