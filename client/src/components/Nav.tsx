@@ -36,7 +36,7 @@ export default function Nav() {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          padding: isMobile ? "14px 20px" : "20px 64px",
+          padding: isMobile ? "14px 20px" : "20px clamp(24px, 5vw, 64px)",
           backdropFilter: "blur(24px)",
           WebkitBackdropFilter: "blur(24px)",
           backgroundColor: `${c.fundo}D0`,
@@ -80,7 +80,13 @@ export default function Nav() {
         </div>
 
         {!isMobile && (
-          <div style={{ display: "flex", gap: 36, alignItems: "center" }}>
+          <div
+            style={{
+              display: "flex",
+              gap: "clamp(16px, 2.6vw, 36px)",
+              alignItems: "center",
+            }}
+          >
             {navLinks.map(({ label, href }) => (
               <a
                 key={label}

@@ -63,6 +63,13 @@
   * {
     @apply border-border outline-ring/50;
   }
+  /* Rede de segurança: nada pode criar rolagem horizontal na página.
+     "clip" (e não "hidden") não cria contêiner de rolagem, então não
+     interfere em position: sticky/fixed. */
+  html,
+  body {
+    overflow-x: clip;
+  }
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-body);

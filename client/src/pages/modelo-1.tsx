@@ -572,7 +572,11 @@ const CURSO_CORES = {
 };
 
 function useIsNarrow(maxWidth = 1023) {
-  const [narrow, setNarrow] = useState(false);
+  const [narrow, setNarrow] = useState(
+    () =>
+      typeof window !== "undefined" &&
+      window.matchMedia(`(max-width: ${maxWidth}px)`).matches
+  );
   useEffect(() => {
     const mql = window.matchMedia(`(max-width: ${maxWidth}px)`);
     const onChange = () => setNarrow(mql.matches);
@@ -1098,7 +1102,9 @@ function CursoSection() {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: narrow ? "1fr" : "1.05fr 0.95fr",
+            gridTemplateColumns: narrow
+              ? "minmax(0, 1fr)"
+              : "minmax(0, 1.05fr) minmax(0, 0.95fr)",
             gap: narrow ? 48 : 80,
             alignItems: "center",
             marginTop: isMobile ? 40 : 64,
