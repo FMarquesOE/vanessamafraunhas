@@ -466,7 +466,7 @@ function ServicosSection() {
 // ou estiver fora do ar, a seção continua com os depoimentos fixos do CONFIG
 // (que também são o que o prerender grava no HTML).
 const NOTA_MINIMA = 4;
-const MAX_CARDS = 3;
+const MAX_CARDS = 5; // a Places API (New) devolve no máximo 5
 
 type CardDepoimento = {
   nome: string;
@@ -601,8 +601,10 @@ function DepoimentosSection() {
           whileInView="visible"
           viewport={{ once: true, margin: "-60px" }}
           style={{
-            display: "grid",
-            gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)",
+            // 3 por linha no desktop; a linha de baixo (4ª e 5ª) fica centralizada
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "center",
             gap: isMobile ? 16 : 32,
             marginTop: isMobile ? 40 : 64,
           }}
@@ -616,6 +618,8 @@ function DepoimentosSection() {
                 border: `1px solid ${c.acento}20`,
                 borderRadius: 4,
                 minWidth: 0,
+                boxSizing: "border-box",
+                flex: isMobile ? "1 1 100%" : "0 1 calc((100% - 64px) / 3)",
               }}
             >
               <div
