@@ -512,7 +512,10 @@ function DepoimentosSection() {
   const isMobile = useIsMobile();
   const google = useAvaliacoesGoogle();
 
-  const aoVivo: CardDepoimento[] = (google?.avaliacoes ?? [])
+  // A Places API (New) devolve até 5 avaliações ordenadas por relevância e não
+  // aceita ordenação; aqui reordenamos essas 5 da mais recente para a mais antiga.
+  const aoVivo: CardDepoimento[] = [...(google?.avaliacoes ?? [])]
+    .sort((a, b) => (b.publicadoEm ?? "").localeCompare(a.publicadoEm ?? ""))
     .filter((a) => a.nota >= NOTA_MINIMA && a.texto.length > 0)
     .slice(0, MAX_CARDS)
     .map((a) => ({ nome: a.autor, texto: a.texto, perfilUrl: a.perfilUrl, quando: a.quando }));
