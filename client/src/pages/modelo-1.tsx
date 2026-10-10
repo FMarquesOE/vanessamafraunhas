@@ -18,6 +18,7 @@ import Hero, { RotatingSeal } from "@/components/Hero";
 import MapaLocalizacao from "@/components/MapaLocalizacao";
 import InstagramEmbed from "@/components/InstagramEmbed";
 import { CONFIG } from "@/lib/siteConfig";
+import type { AvaliacoesPayload } from "../../../api/avaliacoes";
 
 // =============================================================================
 // Variantes de animação
@@ -460,9 +461,65 @@ function ServicosSection() {
 // =============================================================================
 // DEPOIMENTOS
 // =============================================================================
+// Avaliações ao vivo do Google (via /api/avaliacoes, Places API New).
+// Só exibimos avaliações com nota >= NOTA_MINIMA e com texto; se a API falhar
+// ou estiver fora do ar, a seção continua com os depoimentos fixos do CONFIG
+// (que também são o que o prerender grava no HTML).
+const NOTA_MINIMA = 4;
+const MAX_CARDS = 3;
+
+type CardDepoimento = {
+  nome: string;
+  texto: string;
+  perfilUrl?: string | null;
+  quando?: string;
+};
+
+function useAvaliacoesGoogle() {
+  const [dados, setDados] = useState<AvaliacoesPayload | null>(null);
+
+  useEffect(() => {
+    const ctrl = new AbortController();
+    fetch("/api/avaliacoes", { signal: ctrl.signal })
+      .then((r) => (r.ok ? (r.json() as Promise<AvaliacoesPayload>) : null))
+      .then((d) => {
+        if (d && Array.isArray(d.avaliacoes)) setDados(d);
+      })
+      .catch(() => {
+        /* sem API (dev local, erro, bloqueio): mantém os depoimentos fixos */
+      });
+    return () => ctrl.abort();
+  }, []);
+
+  return dados;
+}
+
+function Estrelas({ nota, size = 13 }: { nota: number; size?: number }) {
+  const cheias = Math.round(nota);
+  return (
+    <span
+      aria-hidden="true"
+      style={{ letterSpacing: "0.12em", fontSize: size, color: CONFIG.cores.acento }}
+    >
+      {"★".repeat(cheias)}
+      <span style={{ opacity: 0.25 }}>{"★".repeat(5 - cheias)}</span>
+    </span>
+  );
+}
+
 function DepoimentosSection() {
   const c = CONFIG.cores;
   const isMobile = useIsMobile();
+  const google = useAvaliacoesGoogle();
+
+  const aoVivo: CardDepoimento[] = (google?.avaliacoes ?? [])
+    .filter((a) => a.nota >= NOTA_MINIMA && a.texto.length > 0)
+    .slice(0, MAX_CARDS)
+    .map((a) => ({ nome: a.autor, texto: a.texto, perfilUrl: a.perfilUrl, quando: a.quando }));
+
+  const usandoGoogle = aoVivo.length > 0;
+  const cards: CardDepoimento[] = usandoGoogle ? aoVivo : CONFIG.depoimentos;
+  const linkTodas = google?.url ?? CONFIG.enderecoMaps;
 
   return (
     <section
@@ -481,6 +538,60 @@ function DepoimentosSection() {
           <Filete />
         </ScrollReveal>
 
+        {google?.nota != null && google.total != null && (
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              alignItems: "baseline",
+              gap: isMobile ? "6px 14px" : "8px 18px",
+              marginTop: isMobile ? 28 : 40,
+            }}
+          >
+            <span
+              style={{
+                fontFamily: "Cormorant Garamond, serif",
+                fontSize: isMobile ? 40 : 52,
+                lineHeight: 1,
+                color: c.texto,
+              }}
+            >
+              {google.nota.toLocaleString("pt-BR", {
+                minimumFractionDigits: 1,
+                maximumFractionDigits: 1,
+              })}
+            </span>
+            <Estrelas nota={google.nota} size={isMobile ? 16 : 18} />
+            <span
+              style={{
+                fontFamily: "Inter, sans-serif",
+                fontSize: 13,
+                color: c.texto,
+                opacity: 0.7,
+              }}
+            >
+              {google.total} avaliações no Google
+            </span>
+            <a
+              href={linkTodas}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                fontFamily: "Inter, sans-serif",
+                fontSize: 11,
+                fontWeight: 600,
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+                color: c.texto,
+                textDecoration: "underline",
+                textUnderlineOffset: 4,
+              }}
+            >
+              Ver todas →
+            </a>
+          </div>
+        )}
+
         <motion.div
           variants={vStagger}
           initial="hidden"
@@ -493,14 +604,15 @@ function DepoimentosSection() {
             marginTop: isMobile ? 40 : 64,
           }}
         >
-          {CONFIG.depoimentos.map((d, i) => (
+          {cards.map((d) => (
             <motion.div
-              key={i}
+              key={`${d.nome}-${d.texto.slice(0, 24)}`}
               variants={vFadeUp}
               style={{
                 padding: isMobile ? "28px 24px" : "40px 36px",
                 border: `1px solid ${c.acento}20`,
                 borderRadius: 4,
+                minWidth: 0,
               }}
             >
               <div
@@ -524,11 +636,15 @@ function DepoimentosSection() {
                   color: c.texto,
                   opacity: 0.8,
                   marginBottom: 24,
+                  display: "-webkit-box",
+                  WebkitLineClamp: 7,
+                  WebkitBoxOrient: "vertical",
+                  overflow: "hidden",
                 }}
               >
                 {d.texto}
               </p>
-              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
                 <div
                   style={{
                     height: 1,
@@ -537,22 +653,67 @@ function DepoimentosSection() {
                     opacity: 0.3,
                   }}
                 />
-                <span
-                  style={{
-                    fontFamily: "Inter, sans-serif",
-                    fontSize: 11,
-                    letterSpacing: "0.18em",
-                    textTransform: "uppercase",
-                    color: c.texto,
-                    opacity: 0.4,
-                  }}
-                >
-                  {d.nome}
-                </span>
+                {d.perfilUrl ? (
+                  <a
+                    href={d.perfilUrl}
+                    target="_blank"
+                    rel="noopener noreferrer nofollow"
+                    style={{
+                      fontFamily: "Inter, sans-serif",
+                      fontSize: 11,
+                      letterSpacing: "0.18em",
+                      textTransform: "uppercase",
+                      color: c.texto,
+                      opacity: 0.7,
+                      textDecoration: "none",
+                    }}
+                  >
+                    {d.nome}
+                  </a>
+                ) : (
+                  <span
+                    style={{
+                      fontFamily: "Inter, sans-serif",
+                      fontSize: 11,
+                      letterSpacing: "0.18em",
+                      textTransform: "uppercase",
+                      color: c.texto,
+                      opacity: 0.7,
+                    }}
+                  >
+                    {d.nome}
+                  </span>
+                )}
+                {d.quando && (
+                  <span
+                    style={{
+                      fontFamily: "Inter, sans-serif",
+                      fontSize: 11,
+                      color: c.texto,
+                      opacity: 0.6,
+                    }}
+                  >
+                    · {d.quando}
+                  </span>
+                )}
               </div>
             </motion.div>
           ))}
         </motion.div>
+
+        {usandoGoogle && (
+          <p
+            style={{
+              marginTop: 24,
+              fontFamily: "Inter, sans-serif",
+              fontSize: 11,
+              color: c.texto,
+              opacity: 0.6,
+            }}
+          >
+            Avaliações do Google
+          </p>
+        )}
       </div>
     </section>
   );
