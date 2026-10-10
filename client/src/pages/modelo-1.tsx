@@ -601,7 +601,7 @@ function DepoimentosSection() {
           whileInView="visible"
           viewport={{ once: true, margin: "-60px" }}
           style={{
-            // 3 por linha no desktop; a linha de baixo (4ª e 5ª) fica centralizada
+            // 2 por linha no desktop; se sobrar 1, ele fica centralizado na última linha
             display: "flex",
             flexWrap: "wrap",
             justifyContent: "center",
@@ -619,7 +619,7 @@ function DepoimentosSection() {
                 borderRadius: 4,
                 minWidth: 0,
                 boxSizing: "border-box",
-                flex: isMobile ? "1 1 100%" : "0 1 calc((100% - 64px) / 3)",
+                flex: isMobile ? "1 1 100%" : "0 1 calc((100% - 32px) / 2)",
               }}
             >
               <div
