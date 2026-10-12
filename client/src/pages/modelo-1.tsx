@@ -1205,7 +1205,7 @@ function CursoSection() {
             Quero garantir minha vaga
           </a>
           <a
-            href={curso.cartaz}
+            href={`https://forms.gle/gtpvc7myGjSPkX9g8`}
             target="_blank"
             rel="noopener"
             style={{
@@ -1221,7 +1221,7 @@ function CursoSection() {
               opacity: 0.85,
             }}
           >
-            Ver cartaz do curso →
+            Cadastre-se aqui para as próximas turmas! →
           </a>
         </div>
       </ScrollReveal>

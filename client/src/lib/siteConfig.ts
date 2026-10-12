@@ -131,7 +131,7 @@ export const CONFIG = {
     whatsapp:
       "5521999277505?text=Ol%C3%A1%20Vanessa!%20Tenho%20interesse%20no%20Curso%20Presencial%20de%20Spa%20e%20Pl%C3%A1stica%20dos%20P%C3%A9s.%20Pode%20me%20passar%20as%20pr%C3%B3ximas%20datas%3F",
     imagemAntesDepois: "/fotos/curso/antes-depois.webp",
-    cartaz: "/fotos/curso/cartaz-curso-spa-plastica-pes.webp",
+    prevenda: " Cadastre-se aqui para a próxima turma!",
   },
   duvidas: [
     {
